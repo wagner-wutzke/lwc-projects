@@ -1,0 +1,33 @@
+<template>
+  <lightning-card title="Filters">
+    <div class="slds-var-m-around_medium">
+      <lightning-layout>
+        <lightning-layout-item size="2" class="slds-var-m-right_small">
+          <lightning-combobox
+            label="Project"
+            value={selectedProject}
+            options={allProjects}
+            placeholder="Select a project"
+            onchange={handleProjectChange}
+          ></lightning-combobox>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="2" class="slds-var-m-left_small">
+          <lightning-input
+            type="date"
+            label="Start date"
+            onchange={handleStartDateChange}
+          ></lightning-input>
+        </lightning-layout-item>
+
+        <lightning-layout-item size="2" class="slds-var-m-left_small">
+          <lightning-input
+            type="date"
+            label="End date"
+            onchange={handleEndDateChange}
+          ></lightning-input>
+        </lightning-layout-item>
+      </lightning-layout>
+    </div>
+  </lightning-card>
+</template>
