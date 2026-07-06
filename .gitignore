@@ -37,3 +37,5 @@ sfca_results.json
 
 # Local environment variables
 .env
+lwc-working-time-tracking/package.json
+lwc-working-time-tracking/package-lock.json
