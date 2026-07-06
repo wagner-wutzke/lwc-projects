@@ -1,0 +1,18 @@
+<template>
+  <lightning-card title="Working Hours">
+    <div class="slds-var-m-around_small">
+      <template if:true={timeTrackingRecords}>
+        <lightning-datatable
+          key-field="Name"
+          data={timeTrackingRecords}
+          columns={columns}
+          hide-checkbox-column
+        >
+        </lightning-datatable>
+      </template>
+      <template if:false={timeTrackingRecords}>
+        <p>No Time Tracking records available.</p>
+      </template>
+    </div>
+  </lightning-card>
+</template>
