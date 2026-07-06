@@ -35,8 +35,14 @@
                 <label>Marketing</label>
             </value>
             <value>
+                <fullName>Finances</fullName>
+                <default>false</default>
+                <label>Finances</label>
+            </value>
+            <value>
                 <fullName>Financial</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>Financial</label>
             </value>
         </valueSetDefinition>

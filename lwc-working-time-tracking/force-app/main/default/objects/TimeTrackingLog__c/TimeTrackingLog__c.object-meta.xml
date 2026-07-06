@@ -156,7 +156,7 @@
     <label>Time Tracking Log</label>
     <nameField>
         <displayFormat>TTL-{0000000000}</displayFormat>
-        <label>Time Tracking Log Name</label>
+        <label>Name</label>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Time Tracking Logs</pluralLabel>

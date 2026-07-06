@@ -156,7 +156,7 @@
     <label>Project</label>
     <nameField>
         <displayFormat>PRO-{000000000}</displayFormat>
-        <label>Project Name</label>
+        <label>Name</label>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Projects</pluralLabel>
