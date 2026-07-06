@@ -5,9 +5,8 @@
         <lightning-layout-item size="2" class="slds-var-m-right_small">
           <lightning-combobox
             label="Project"
-            value={selectedProject}
+            value={selectedProjectId}
             options={allProjects}
-            placeholder="Select a project"
             onchange={handleProjectChange}
           ></lightning-combobox>
         </lightning-layout-item>
@@ -17,6 +16,7 @@
             type="date"
             label="Start date"
             onchange={handleStartDateChange}
+            value={startDateInitValue}
           ></lightning-input>
         </lightning-layout-item>
 
@@ -25,6 +25,7 @@
             type="date"
             label="End date"
             onchange={handleEndDateChange}
+            value={endDateInitValue}
           ></lightning-input>
         </lightning-layout-item>
       </lightning-layout>

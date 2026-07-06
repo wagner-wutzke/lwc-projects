@@ -1,18 +1,26 @@
 import { LightningElement, wire } from "lwc";
-import getAllProjectsForFilter from "@salesforce/apex/TimeTrackingLogController.getAllProjectsForFilter";
+import getAllProjectsForFilter from "@salesforce/apex/TimeTrackingLogController.getAllProjects";
 
 export default class Filter extends LightningElement {
   allProjects = undefined;
-  startDateFilter = undefined;
-  endDateFilter = undefined;
-  selectedProjectId = "All";
+
+  startDateInitValue;
+  endDateInitValue;
+  selectedProjectId;
+
+  connectedCallback() {
+    const now = new Date();
+    this.startDateInitValue = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+    this.endDateInitValue = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0];
+    this.selectedProjectId = 'All';
+  }
 
   @wire(getAllProjectsForFilter)
   wiredProjectRecords({ error, data }) {
     if (data) {
       this.generateProjectFilterOptions(data);
     } else if (error) {
-      console.error("Error loading project records", error);
+      console.error("Error loading project records: ", error);
     }
   }
 
@@ -28,26 +36,29 @@ export default class Filter extends LightningElement {
   }
 
   handleProjectChange(event) {
-    this.selectedProjectId = event.detail.value;
+    const selectedProjectId = event.detail.value;
     const projectChangeEvent = new CustomEvent("projectchange", {
-      detail: { projectId: this.selectedProjectId }
+      detail: selectedProjectId,
+      bubbles: true
     });
-    this.dispatchEvent(projectChangeEvent, { bubbles: true, composed: true });
+    this.dispatchEvent(projectChangeEvent);
   }
 
   handleStartDateChange(event) {
-    this.startDateFilter = event.detail.value;
+    const startDate = event.detail.value;
     const startDateChangeEvent = new CustomEvent("startdatechange", {
-      detail: { startDate: this.startDateFilter }
+      detail: startDate,
+      bubbles: true
     });
-    this.dispatchEvent(startDateChangeEvent, { bubbles: true, composed: true });
+    this.dispatchEvent(startDateChangeEvent);
   }
 
   handleEndDateChange(event) {
-    this.endDateFilter = event.detail.value;
+    const endDate = event.detail.value;
     const endDateChangeEvent = new CustomEvent("enddatechange", {
-      detail: { endDate: this.endDateFilter }
+      detail: endDate,
+      bubbles: true
     });
-    this.dispatchEvent(endDateChangeEvent, { bubbles: true, composed: true });
+    this.dispatchEvent(endDateChangeEvent);
   }
 }
