@@ -8,5 +8,41 @@
         <members>Security</members>
         <name>Settings</name>
     </types>
+    <types>
+        <members>main</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>filter</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>summary</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>details</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <types>
+        <members>Work_Time_Tracking</members>
+        <name>FlexiPage</name>
+    </types>
+    <types>
+        <members>WorkingTimeTrackingPermissions</members>
+        <name>PermissionSet</name>
+    </types>
+    <types>
+        <members>WorkingTimeTrackingPermissions</members>
+        <name>Profile</name>
+    </types>
+    <types>
+        <members>Project</members>
+        <name>CustomTab</name>
+    <types>
+    <types>
+        <members>Time Tracking Logs</members>
+        <name>CustomTab</name>
+    <types
     <version>66.0</version>
 </Package>
