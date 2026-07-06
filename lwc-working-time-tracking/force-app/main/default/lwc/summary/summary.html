@@ -1,0 +1,13 @@
+<template>
+    <lightning-card title="Summary">
+        <div class="slds-var-m-around_small">
+            <template if:true={summaryData}>
+                <lightning-datatable key-field="id" data={summaryData} columns={columns} hide-checkbox-column>
+                </lightning-datatable>
+            </template>
+            <template if:false={summaryData}>
+                <p>No summary data available.</p>
+            </template>
+        </div>
+    </lightning-card>
+</template>
