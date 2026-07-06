@@ -12,7 +12,9 @@
 
     <lightning-layout-item padding="around-small" size="12">
       <div class="page-section page-main">
-        <c-list></c-list>
+        <c-list
+          onrowselectionchange={handleRowSelectionChange}
+        ></c-list>
       </div>
     </lightning-layout-item>
   </lightning-layout>

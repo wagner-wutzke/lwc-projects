@@ -3,10 +3,11 @@
     <div class="slds-var-m-around_small">
       <template if:true={timeTrackingRecords}>
         <lightning-datatable
-          key-field="Name"
+          key-field="Id"
           data={timeTrackingRecords}
           columns={columns}
-          hide-checkbox-column
+          max-row-selection="1"
+          onrowselection={handleRowSelection}
         >
         </lightning-datatable>
       </template>

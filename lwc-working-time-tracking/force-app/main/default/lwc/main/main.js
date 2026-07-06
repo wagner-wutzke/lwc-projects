@@ -1,5 +1,4 @@
 import { LightningElement } from "lwc";
-// import Toast from "lightning/toast";
 
 export default class Main extends LightningElement {
   filters = {
@@ -10,28 +9,39 @@ export default class Main extends LightningElement {
     endDate: "",
   };
 
+  selectedTimeTrackingId;
+
   async handleProjectChange(event) {
     const filterValue = event.detail;
     this.filters = { ...this.filters,  projectId: filterValue };
-    this.executeAction();
+    this.reloadList();
   }
 
   async handleStartDateChange(event) {
     const filterValue = event.detail;
     this.filters = { ...this.filters, startDate: filterValue };
-    this.executeAction();
+    this.reloadList();
   }
 
   async handleEndDateChange(event) {
     const filterValue = event.detail;
     this.filters = { ...this.filters, endDate: filterValue };
-    this.executeAction();
+    this.reloadList();
   }
 
-  executeAction() {
+  async handleRowSelectionChange(event) {
+    this.selectedTimeTrackingId = event.detail;
+    const details = this.template.querySelector("c-details");
+    if (details && typeof details.fetchTimeTrackingLogById === "function") {
+      details.fetchTimeTrackingLogById(this.selectedTimeTrackingId);
+    }
+  }
+
+  reloadList() {
     const list = this.template.querySelector("c-list");
     if (list && typeof list.fetchTimeTrackingRecords === "function") {
       list.fetchTimeTrackingRecords(this.filters);
     }
   }
+
 }

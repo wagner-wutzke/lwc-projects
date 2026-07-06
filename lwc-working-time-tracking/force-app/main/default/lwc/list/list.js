@@ -71,4 +71,13 @@ export default class List extends LightningElement {
     });
     return fixedData;
   }
+
+  handleRowSelection(event) {
+    const selectedRowId = event.detail.selectedRows[0].Id;
+    const rowSelectionChangeEvent = new CustomEvent("rowselectionchange", {
+      detail: selectedRowId,
+      bubbles: true
+    });
+    this.dispatchEvent(rowSelectionChangeEvent);
+  }
 }

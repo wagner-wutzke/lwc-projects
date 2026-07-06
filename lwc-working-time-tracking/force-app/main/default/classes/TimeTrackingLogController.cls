@@ -8,23 +8,20 @@ public with sharing class TimeTrackingLogController {
       public String endDate { get; set; }
     }
 
+  private static String timeTrackingQuery ='SELECT Id, Name, Date__c, StartTime__c, EndTime__c, TaskDescription__c, ' + 
+                'Collaborator__r.Name, Collaborator__r.Id, ' +
+                'Project__r.Name, Project__r.Department__c, Project__r.ProjectOwner__r.Name, Project__r.CostCenter__c ' + 
+                'FROM TimeTrackingLog__c';
+
   @AuraEnabled
   public static List<TimeTrackingLog__c> fetchFilteredRecords(String jsonFilters) {
-    System.debug('JSON filters payload: ' + jsonFilters);
-    String query = 'SELECT Id, Name, Date__c, StartTime__c, EndTime__c, TaskDescription__c, Collaborator__r.Name, ' +
-                   'Project__r.Name, Project__r.Department__c, Project__r.ProjectOwner__r.Name, Project__r.CostCenter__c ' + 
-                   'FROM TimeTrackingLog__c';
-    
-    System.debug(LoggingLevel.INFO, 'jsonFilters: ' + jsonFilters);
-
     try {
       FiltersWrapper filtersWrapper = (FiltersWrapper) JSON.deserialize(jsonFilters, FiltersWrapper.class);
       String whereClause = getWhereClause(filtersWrapper);
-      System.debug(LoggingLevel.INFO, 'Final SOQL query: \n' + query + whereClause);
-      return Database.query(query + whereClause);
+      return Database.query(timeTrackingQuery + whereClause);
     } catch (Exception e) {
       throw new AuraHandledException(
-        'Error deserializing filter parameters: ' + e.getMessage() + '. => Filters: ' + jsonFilters
+        'Error deserializing filter parameters: ' + e.getMessage() + '. >> Filters: ' + jsonFilters
       );
     }
   }
@@ -50,6 +47,16 @@ public with sharing class TimeTrackingLogController {
       whereClause += ' AND Date__c <= ' + filtersWrapper.endDate;
     }
     return whereClause;
+  }
+
+  @AuraEnabled
+  public static TimeTrackingLog__c findTimeTrackingLogById(String timeTrackingLogId) {
+    try {
+      String whereClause = ' WHERE Id = \'' + timeTrackingLogId + '\'';
+      return Database.query(timeTrackingQuery + whereClause);
+    } catch (Exception e) {
+      throw new AuraHandledException(e.getMessage());
+    }
   }
 
   @AuraEnabled(cacheable=true)
