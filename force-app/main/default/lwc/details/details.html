@@ -1,0 +1,22 @@
+<template>
+    <lightning-card title="Details">
+        <div class="slds-var-m-around_small">
+            <lightning-record-form
+                object-api-name="TimeTrackingLog__c"
+                record-id={recordId}
+                fields={FIELDS}
+                columns="2"
+                mode={mode}
+                onsuccess={handleSuccess}
+                oncancel={handleCancel}
+                onload={handleLoad}>
+            >
+            </lightning-record-form>
+        </div>
+        <lightning-button-group>
+            <lightning-button label="New" icon-name="utility:add" onclick={handleNew}></lightning-button>
+            <lightning-button label="Delete" icon-name="utility:delete" onclick={handleDelete} disabled={isDeleteDisabled}>
+            </lightning-button>
+        </lightning-button-group>
+    </lightning-card>
+</template>
