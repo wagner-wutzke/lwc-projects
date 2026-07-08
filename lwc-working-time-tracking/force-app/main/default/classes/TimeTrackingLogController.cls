@@ -49,16 +49,6 @@ public with sharing class TimeTrackingLogController {
     return whereClause;
   }
 
-  @AuraEnabled
-  public static TimeTrackingLog__c findTimeTrackingLogById(String timeTrackingLogId) {
-    try {
-      String whereClause = ' WHERE Id = \'' + timeTrackingLogId + '\'';
-      return Database.query(timeTrackingQuery + whereClause);
-    } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage());
-    }
-  }
-
   @AuraEnabled(cacheable=true)
   public static List<Project__c> getAllProjects() {
     return [

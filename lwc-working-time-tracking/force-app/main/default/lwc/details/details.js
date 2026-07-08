@@ -1,5 +1,4 @@
-import { LightningElement, api, track } from 'lwc';
-// import fetchRecordById from '@salesforce/apex/TimeTrackingLogController.findTimeTrackingLogById';
+import { LightningElement, api } from 'lwc';
 
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
@@ -36,7 +35,6 @@ export default class Details extends LightningElement {
     reset() {
         const editForm = this.template.querySelector('lightning-record-form');
         editForm.recordId = undefined;
-        this._recordId = undefined;
         this.isDeleteDisabled = true;
     }
 
@@ -57,6 +55,7 @@ export default class Details extends LightningElement {
                     })
                 );
                 this.reset();
+                this.reloadList();
             })
             .catch(error => {
                 this.dispatchEvent(
@@ -68,9 +67,8 @@ export default class Details extends LightningElement {
                 );
             });
         this.mode = "readonly";
-        this._recordId = undefined;
+        //this._recordId = undefined;
         this.isDeleteDisabled = true;
-        this.reloadList();
     }
 
     handleCancel() {
@@ -80,7 +78,6 @@ export default class Details extends LightningElement {
 
     handleSuccess(event) {
         this.mode = "readonly";
-        this._recordId = undefined;
         this.reset();
         this.isDeleteDisabled = true;
 
