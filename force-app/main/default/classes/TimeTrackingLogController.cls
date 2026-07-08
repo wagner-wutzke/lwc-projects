@@ -37,10 +37,11 @@ public with sharing class TimeTrackingLogController {
   @TestVisible
   private static String getWhereClause(FiltersWrapper filtersWrapper) {
     String whereClause = ' WHERE Project__r.Active__c = true';
+
     if (!String.isEmpty(filtersWrapper.collaboratorId)) {
       whereClause +=
         ' AND Collaborator__r.Name = \'' +
-        filtersWrapper.collaboratorId +
+        String.escapeSingleQuotes(filtersWrapper.collaboratorId) +
         '\'';
     }
     if (
@@ -49,23 +50,41 @@ public with sharing class TimeTrackingLogController {
     ) {
       whereClause +=
         ' AND Project__r.Id = \'' +
-        filtersWrapper.projectId +
+        String.escapeSingleQuotes(filtersWrapper.projectId) +
         '\'';
     }
     if (!String.isEmpty(filtersWrapper.department)) {
       whereClause +=
         ' AND Project__r.Department__c = \'' +
-        filtersWrapper.department +
+        String.escapeSingleQuotes(filtersWrapper.department) +
         '\'';
     }
     if (!String.isEmpty(filtersWrapper.startDate)) {
-      whereClause += ' AND Date__c >= ' + filtersWrapper.startDate;
+      Date startDate = parseDateFilter(filtersWrapper.startDate, 'startDate');
+      whereClause += ' AND Date__c >= ' + String.valueOf(startDate);
     }
     if (!String.isEmpty(filtersWrapper.endDate)) {
-      whereClause += ' AND Date__c <= ' + filtersWrapper.endDate;
+      Date endDate = parseDateFilter(filtersWrapper.endDate, 'endDate');
+      whereClause += ' AND Date__c <= ' + String.valueOf(endDate);
     }
+
     whereClause += ' ORDER BY Date__c DESC, StartTime__c ASC';
     return whereClause;
+  }
+
+  private static Date parseDateFilter(String rawValue, String fieldLabel) {
+    try {
+      // Date.valueOf strictly expects ISO format: yyyy-MM-dd
+      return Date.valueOf(rawValue);
+    } catch (Exception e) {
+      throw new AuraHandledException(
+        'Invalid ' +
+          fieldLabel +
+          ' filter: "' +
+          rawValue +
+          '" is not a valid date (expected yyyy-MM-dd).'
+      );
+    }
   }
 
   @AuraEnabled(cacheable=true)
