@@ -14,6 +14,7 @@
       <div class="page-section page-main">
         <c-list
           onrowselectionchange={handleRowSelectionChange}
+          onreloadlist={handleReloadList}
         ></c-list>
       </div>
     </lightning-layout-item>
@@ -22,7 +23,7 @@
   <lightning-layout multiple-rows="false">
     <lightning-layout-item padding="around-small" size="6">
       <div class="page-section page-main">
-        <c-details></c-details>
+        <c-details record-id={selectedTimeTrackingId}></c-details>
       </div>
     </lightning-layout-item>
 

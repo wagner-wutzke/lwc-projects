@@ -1,4 +1,4 @@
-import { LightningElement } from "lwc";
+import { LightningElement, api } from "lwc";
 
 export default class Main extends LightningElement {
   filters = {
@@ -32,9 +32,13 @@ export default class Main extends LightningElement {
   async handleRowSelectionChange(event) {
     this.selectedTimeTrackingId = event.detail;
     const details = this.template.querySelector("c-details");
-    if (details && typeof details.fetchTimeTrackingLogById === "function") {
-      details.fetchTimeTrackingLogById(this.selectedTimeTrackingId);
+    if (details && typeof details.loadDetails === "function") {
+      details.loadDetails(this.selectedTimeTrackingId);
     }
+  }
+
+  async handleReloadList(event) {
+    this.reloadList();
   }
 
   reloadList() {

@@ -80,4 +80,9 @@ export default class List extends LightningElement {
     });
     this.dispatchEvent(rowSelectionChangeEvent);
   }
+
+  async handleReloadList(event) {
+    this.fetchTimeTrackingRecords(event.details);
+  }
+
 }

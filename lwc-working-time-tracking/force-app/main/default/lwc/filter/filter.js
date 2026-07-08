@@ -10,7 +10,7 @@ export default class Filter extends LightningElement {
 
   connectedCallback() {
     const now = new Date();
-    this.startDateInitValue = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0];
+    this.startDateInitValue = new Date(now.getFullYear(), 1 /*now.getMonth()*/, 1).toISOString().split('T')[0];
     this.endDateInitValue = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0];
     this.selectedProjectId = 'All';
   }
