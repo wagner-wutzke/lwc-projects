@@ -56,3 +56,7 @@ Transform your ideas into custom Lightning apps that extend CRM workflows direct
 - [Salesforce CLI Plugin Development Guide](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/conceptual-overview.html)
 - [Salesforce VS Code Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
 
+
+## Missing Features
+- There is no validation for Dates filter: Start Date can currently be greater than End Date.
+- There is no validation for Times in the Time Tracking Log records: Start Time can currently be greater than End Time.
