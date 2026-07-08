@@ -10,9 +10,9 @@ export default class Filter extends LightningElement {
 
   connectedCallback() {
     const now = new Date();
-    this.startDateInitValue = new Date(now.getFullYear(), 1 /*now.getMonth()*/, 1).toISOString().split('T')[0];
+    this.startDateInitValue = new Date(now.getFullYear(), 0 /*now.getMonth()*/, 1).toISOString().split('T')[0];
     this.endDateInitValue = new Date(now.getFullYear(), now.getMonth() + 1, 0).toISOString().split('T')[0];
-    this.selectedProjectId = 'All';
+    this.selectedProjectId = '';
   }
 
   @wire(getAllProjectsForFilter)
@@ -37,8 +37,10 @@ export default class Filter extends LightningElement {
 
   handleProjectChange(event) {
     const selectedProjectId = event.detail.value;
+    const selectedOption = this.allProjects.find(option => option.value === selectedProjectId);
+    const selectedProjectName = selectedOption ? selectedOption.label : "";
     const projectChangeEvent = new CustomEvent("projectchange", {
-      detail: selectedProjectId,
+      detail: { projectId: selectedProjectId, projectName: selectedProjectName },
       bubbles: true
     });
     this.dispatchEvent(projectChangeEvent);

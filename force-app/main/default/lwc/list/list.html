@@ -2,14 +2,17 @@
   <lightning-card title="Working Hours">
     <div class="slds-var-m-around_small">
       <template if:true={timeTrackingRecords}>
-        <lightning-datatable
-          key-field="Id"
-          data={timeTrackingRecords}
-          columns={columns}
-          max-row-selection="1"
-          onrowselection={handleRowSelection}
-        >
-        </lightning-datatable>
+        <div style="height: 300px;">
+          <lightning-datatable
+            key-field="Id"
+            data={timeTrackingRecords}
+            columns={columns}
+            max-row-selection="1"
+            onrowselection={handleRowSelection}
+            class="slds-scrollable_y"
+          >
+          </lightning-datatable>
+        </div>
       </template>
       <template if:false={timeTrackingRecords}>
         <p>No Time Tracking records available.</p>

@@ -9,7 +9,7 @@ public with sharing class TimeTrackingLogController {
     }
 
   private static String timeTrackingQuery ='SELECT Id, Name, Date__c, StartTime__c, EndTime__c, TaskDescription__c, ' + 
-                'Collaborator__r.Name, Collaborator__r.Id, ' +
+                'Collaborator__r.Name, Collaborator__r.Id, TotalTime__c, ' +
                 'Project__r.Name, Project__r.Department__c, Project__r.ProjectOwner__r.Name, Project__r.CostCenter__c ' + 
                 'FROM TimeTrackingLog__c';
 
@@ -46,6 +46,7 @@ public with sharing class TimeTrackingLogController {
     if (!String.isEmpty(filtersWrapper.endDate)) {
       whereClause += ' AND Date__c <= ' + filtersWrapper.endDate;
     }
+    whereClause += ' ORDER BY Date__c DESC, StartTime__c ASC';
     return whereClause;
   }
 

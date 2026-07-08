@@ -1,0 +1,8 @@
+
+.custom-disabled-input {
+    --slds-c-input-color-border: #0070d2;
+
+    cursor: not-allowed;
+    pointer-events: none; /* Prevents mouse clicks and selection */
+    font-weight: 500;
+}

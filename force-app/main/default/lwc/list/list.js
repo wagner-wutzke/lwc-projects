@@ -30,6 +30,13 @@ const COLUMNS = [
       minute: "2-digit"
     }
   },
+  {
+    label: "Total Time",
+    fieldName: "TotalTime",
+    type: "number",
+    typeAttributes: { minimumFractionDigits: 2 },
+    cellAttributes: { alignment: "center" },
+  },
   { label: "Task Description", fieldName: "TaskDescription", type: "text" },
   { label: "Cost Center", fieldName: "CostCenter", type: "text" }
 ];
@@ -39,6 +46,14 @@ export default class List extends LightningElement {
 
   @track timeTrackingRecords = undefined;
 
+  summary = {
+    amountRecords : 0,
+    amountHours : 0,
+    projectName : undefined,
+    startDate: undefined,
+    endDate: undefined
+  }
+
   @api
   async fetchTimeTrackingRecords(filters) {
     const jsonFilters = JSON.stringify(filters);
@@ -46,6 +61,8 @@ export default class List extends LightningElement {
     fetchFilteredRecords({ jsonFilters: jsonFilters })
       .then((data) => {
         this.timeTrackingRecords = this.buildRecords(data);
+        this.buildSummary(filters, data);
+        this.fireReloadSummaryEvent();
       })
       .catch((error) => {
         console.error("Error fetching records with filters: " + jsonFilters, JSON.stringify(error));
@@ -63,6 +80,7 @@ export default class List extends LightningElement {
       dataline.Date = row.Date__c;
       dataline.StartTime = row.StartTime__c;
       dataline.EndTime = row.EndTime__c;
+      dataline.TotalTime = row.TotalTime__c;
       dataline.TaskDescription = row.TaskDescription__c;
       dataline.CostCenter = row.Project__r.CostCenter__c;
       dataline.Collaborator = row.Collaborator__r.Name;
@@ -72,7 +90,30 @@ export default class List extends LightningElement {
     return fixedData;
   }
 
-  handleRowSelection(event) {
+  buildSummary(filters, data) {
+    this.summary.projectName = filters.projectName;
+    this.summary.projectId = filters.projectId;
+    this.summary.startDate = filters.startDate;
+    this.summary.endDate = filters.endDate;
+    this.summary.amountRecords = 0;
+    this.summary.amountHours = 0;
+
+    data.forEach((row) => {
+      this.summary.amountRecords++;
+      this.summary.amountHours += row.TotalTime__c;
+    });
+    this.summary.amountHours = (this.summary.amountHours).toFixed(2);
+  }
+
+  fireReloadSummaryEvent() {
+    const summaryReloadEvent = new CustomEvent("reloadsummary", {
+      detail: { ...this.summary },
+      bubbles: true
+    });
+    this.dispatchEvent(summaryReloadEvent);
+  }
+
+  async handleRowSelection(event) {
     const selectedRowId = event.detail.selectedRows[0].Id;
     const rowSelectionChangeEvent = new CustomEvent("rowselectionchange", {
       detail: selectedRowId,

@@ -10,13 +10,14 @@ import STARTTIME_FIELD from "@salesforce/schema/TimeTrackingLog__c.StartTime__c"
 import ENDTIME_FIELD from "@salesforce/schema/TimeTrackingLog__c.EndTime__c";
 import PROJECT_FIELD from "@salesforce/schema/TimeTrackingLog__c.Project__c";
 import DESCRIPTION_FIELD from "@salesforce/schema/TimeTrackingLog__c.TaskDescription__c";
+import TOTALTIME_FIELD from "@salesforce/schema/TimeTrackingLog__c.TotalTime__c";
 
 import { deleteRecord } from 'lightning/uiRecordApi';
 
 export default class Details extends LightningElement {
 
     FIELDS = [ NAME_FIELD, PROJECT_FIELD, COLLABORATOR_FIELD, DATE_FIELD, 
-        STARTTIME_FIELD, ENDTIME_FIELD, ACTIVE_FIELD, DESCRIPTION_FIELD ]; 
+        STARTTIME_FIELD, ENDTIME_FIELD, ACTIVE_FIELD, DESCRIPTION_FIELD, TOTALTIME_FIELD ]; 
 
     @api recordId;
 

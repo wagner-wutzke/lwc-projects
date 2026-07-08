@@ -1,35 +1,43 @@
-import { LightningElement, api } from "lwc";
+import { LightningElement, track } from "lwc";
 
 export default class Main extends LightningElement {
-  filters = {
+  
+  now = new Date();
+  
+  @track filters = {
     projectId: "",
+    projectName: "",
     collaboratorId: "",
+    collaboratorName: "",
     department: "",
-    startDate: "",
-    endDate: "",
+    startDate: new Date(this.now.getFullYear(), 1 /*now.getMonth()*/, 0).toISOString().split('T')[0],
+    endDate: new Date(this.now.getFullYear(), this.now.getMonth() + 1, 0).toISOString().split('T')[0],
   };
 
   selectedTimeTrackingId;
 
-  async handleProjectChange(event) {
-    const filterValue = event.detail;
-    this.filters = { ...this.filters,  projectId: filterValue };
+  handleProjectChange(event) {
+    this.filters = { 
+      ...this.filters,  
+      projectId: event.detail.projectId, 
+      projectName: event.detail.projectName 
+    };
     this.reloadList();
   }
 
-  async handleStartDateChange(event) {
+  handleStartDateChange(event) {
     const filterValue = event.detail;
     this.filters = { ...this.filters, startDate: filterValue };
     this.reloadList();
   }
 
-  async handleEndDateChange(event) {
+  handleEndDateChange(event) {
     const filterValue = event.detail;
     this.filters = { ...this.filters, endDate: filterValue };
     this.reloadList();
   }
 
-  async handleRowSelectionChange(event) {
+  handleRowSelectionChange(event) {
     this.selectedTimeTrackingId = event.detail;
     const details = this.template.querySelector("c-details");
     if (details && typeof details.loadDetails === "function") {
@@ -37,7 +45,14 @@ export default class Main extends LightningElement {
     }
   }
 
-  async handleReloadList(event) {
+  handleReloadSummary(event) {
+    const summary = this.template.querySelector("c-summary");
+    if (summary && typeof summary.reloadSummary === "function") {
+      summary.reloadSummary(event.detail);
+    }
+  }
+
+  handleReloadList(event) {
     this.reloadList();
   }
 
