@@ -224,7 +224,6 @@ describe("c-details", () => {
     ).find((b) => b.label === "Delete");
     deleteButton.click();
     await Promise.resolve();
-    await Promise.resolve();
 
     expect(reloadHandler).toHaveBeenCalledTimes(1);
   });
