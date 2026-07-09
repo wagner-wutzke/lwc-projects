@@ -1,5 +1,6 @@
 import { LightningElement, api, track } from "lwc";
 import fetchFilteredRecords from "@salesforce/apex/TimeTrackingLogController.fetchFilteredRecords";
+import { ShowToastEvent } from "lightning/platformShowToastEvent";
 
 const COLUMNS = [
   { label: "Name", fieldName: "Name", type: "text" },
@@ -35,7 +36,7 @@ const COLUMNS = [
     fieldName: "TotalTime",
     type: "number",
     typeAttributes: { minimumFractionDigits: 2 },
-    cellAttributes: { alignment: "center" },
+    cellAttributes: { alignment: "center" }
   },
   { label: "Task Description", fieldName: "TaskDescription", type: "text" },
   { label: "Cost Center", fieldName: "CostCenter", type: "text" }
@@ -47,12 +48,12 @@ export default class List extends LightningElement {
   @track timeTrackingRecords = undefined;
 
   summary = {
-    amountRecords : 0,
-    amountHours : 0,
-    projectName : undefined,
+    amountRecords: 0,
+    amountHours: 0,
+    projectName: undefined,
     startDate: undefined,
     endDate: undefined
-  }
+  };
 
   @api
   async fetchTimeTrackingRecords(filters) {
@@ -65,7 +66,17 @@ export default class List extends LightningElement {
         this.fireReloadSummaryEvent();
       })
       .catch((error) => {
-        console.error("Error fetching records with filters: " + jsonFilters, JSON.stringify(error));
+        this.dispatchEvent(
+          new ShowToastEvent({
+            title: "Error fetching records",
+            message:
+              "Error fetching records with filters: " +
+              jsonFilters +
+              ". Error: " +
+              error.message,
+            variant: "error"
+          })
+        );
       });
   }
 
@@ -102,7 +113,7 @@ export default class List extends LightningElement {
       this.summary.amountRecords++;
       this.summary.amountHours += row.TotalTime__c;
     });
-    this.summary.amountHours = (this.summary.amountHours).toFixed(2);
+    this.summary.amountHours = this.summary.amountHours.toFixed(2);
   }
 
   fireReloadSummaryEvent() {
@@ -125,5 +136,4 @@ export default class List extends LightningElement {
   async handleReloadList(event) {
     this.fetchTimeTrackingRecords(event.details);
   }
-
 }
