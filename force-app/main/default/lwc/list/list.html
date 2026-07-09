@@ -1,22 +1,22 @@
 <template>
-  <lightning-card title="Working Hours">
-    <div class="slds-var-m-around_small">
-      <template if:true={timeTrackingRecords}>
-        <div style="height: 300px;">
-          <lightning-datatable
-            key-field="Id"
-            data={timeTrackingRecords}
-            columns={columns}
-            max-row-selection="1"
-            onrowselection={handleRowSelection}
-            class="slds-scrollable_y"
-          >
-          </lightning-datatable>
+    <lightning-card title="Working Hours">
+        <div class="slds-var-m-around_small">
+            <template if:true={timeTrackingRecords}>
+                <div style="height: 300px">
+                    <lightning-datatable
+                        key-field="Id"
+                        data={timeTrackingRecords}
+                        columns={columns}
+                        max-row-selection="1"
+                        onrowselection={handleRowSelection}
+                        class="slds-scrollable_y"
+                    >
+                    </lightning-datatable>
+                </div>
+            </template>
+            <template if:false={timeTrackingRecords}>
+                <p>No Time Tracking records available.</p>
+            </template>
         </div>
-      </template>
-      <template if:false={timeTrackingRecords}>
-        <p>No Time Tracking records available.</p>
-      </template>
-    </div>
-  </lightning-card>
+    </lightning-card>
 </template>

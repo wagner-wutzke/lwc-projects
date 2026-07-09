@@ -7,5 +7,6 @@
 .sfdx
 .sf
 .vscode
-
+node_modules
+pkg
 coverage/

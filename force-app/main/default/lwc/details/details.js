@@ -14,94 +14,94 @@ import TOTALTIME_FIELD from "@salesforce/schema/TimeTrackingLog__c.TotalTime__c"
 import { deleteRecord } from "lightning/uiRecordApi";
 
 export default class Details extends LightningElement {
-  FIELDS = [
-    NAME_FIELD,
-    PROJECT_FIELD,
-    COLLABORATOR_FIELD,
-    DATE_FIELD,
-    STARTTIME_FIELD,
-    ENDTIME_FIELD,
-    ACTIVE_FIELD,
-    DESCRIPTION_FIELD,
-    TOTALTIME_FIELD
-  ];
+    FIELDS = [
+        NAME_FIELD,
+        PROJECT_FIELD,
+        COLLABORATOR_FIELD,
+        DATE_FIELD,
+        STARTTIME_FIELD,
+        ENDTIME_FIELD,
+        ACTIVE_FIELD,
+        DESCRIPTION_FIELD,
+        TOTALTIME_FIELD
+    ];
 
-  @api recordId;
+    @api recordId;
 
-  mode = "readonly";
+    mode = "readonly";
 
-  isDeleteDisabled = true;
+    isDeleteDisabled = true;
 
-  handleLoad() {
-    const editForm = this.template.querySelector("lightning-record-form");
-    if (this.recordId !== undefined && editForm.recordId !== undefined) {
-      this.mode = "view";
-      this.isDeleteDisabled = false;
+    handleLoad() {
+        const editForm = this.template.querySelector("lightning-record-form");
+        if (this.recordId !== undefined && editForm.recordId !== undefined) {
+            this.mode = "view";
+            this.isDeleteDisabled = false;
+        }
     }
-  }
 
-  reset() {
-    const editForm = this.template.querySelector("lightning-record-form");
-    editForm.recordId = undefined;
-    this.isDeleteDisabled = true;
-  }
+    reset() {
+        const editForm = this.template.querySelector("lightning-record-form");
+        editForm.recordId = undefined;
+        this.isDeleteDisabled = true;
+    }
 
-  handleNew() {
-    this.reset();
-    this.isDeleteDisabled = true;
-    this.mode = "edit";
-  }
-
-  handleDelete() {
-    deleteRecord(this.recordId)
-      .then(() => {
-        this.dispatchEvent(
-          new ShowToastEvent({
-            title: "Success",
-            message: "Record deleted successfully",
-            variant: "success"
-          })
-        );
+    handleNew() {
         this.reset();
+        this.isDeleteDisabled = true;
+        this.mode = "edit";
+    }
+
+    handleDelete() {
+        deleteRecord(this.recordId)
+            .then(() => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: "Success",
+                        message: "Record deleted successfully",
+                        variant: "success"
+                    })
+                );
+                this.reset();
+                this.reloadList();
+            })
+            .catch((error) => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: "Error deleting record",
+                        message: error.body.message,
+                        variant: "error"
+                    })
+                );
+            });
+        this.mode = "readonly";
+        this.isDeleteDisabled = true;
+    }
+
+    handleCancel() {
+        this.mode = "view";
+        this.isDeleteDisabled = true;
+    }
+
+    handleSuccess() {
+        this.mode = "readonly";
+        this.reset();
+        this.isDeleteDisabled = true;
+
+        const evt = new ShowToastEvent({
+            title: "Success",
+            message: "Record saving successfully",
+            variant: "success"
+        });
+        this.dispatchEvent(evt);
         this.reloadList();
-      })
-      .catch((error) => {
-        this.dispatchEvent(
-          new ShowToastEvent({
-            title: "Error deleting record",
-            message: error.body.message,
-            variant: "error"
-          })
-        );
-      });
-    this.mode = "readonly";
-    this.isDeleteDisabled = true;
-  }
+    }
 
-  handleCancel() {
-    this.mode = "view";
-    this.isDeleteDisabled = true;
-  }
-
-  handleSuccess() {
-    this.mode = "readonly";
-    this.reset();
-    this.isDeleteDisabled = true;
-
-    const evt = new ShowToastEvent({
-      title: "Success",
-      message: "Record saving successfully",
-      variant: "success"
-    });
-    this.dispatchEvent(evt);
-    this.reloadList();
-  }
-
-  reloadList() {
-    const reloadListEvent = new CustomEvent("reloadlist", {
-      detail: "reloadlist",
-      bubbles: true
-    });
-    this.dispatchEvent(reloadListEvent);
-  }
+    reloadList() {
+        const reloadListEvent = new CustomEvent("reloadlist", {
+            detail: "reloadlist",
+            bubbles: true
+        });
+        this.dispatchEvent(reloadListEvent);
+    }
 }

@@ -1,5 +1,10 @@
 {
   "trailingComma": "none",
+  "singleQuote": false,
+  "useTabs": false,
+  "tabWidth": 4,
+  "bracketSpacing": true,
+  "printWidth": 120,
   "plugins": [
     "prettier-plugin-apex",
     "@prettier/plugin-xml"

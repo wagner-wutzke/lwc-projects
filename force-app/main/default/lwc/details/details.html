@@ -9,14 +9,20 @@
                 mode={mode}
                 onsuccess={handleSuccess}
                 oncancel={handleCancel}
-                onload={handleLoad}>
+                onload={handleLoad}
             >
+                >
             </lightning-record-form>
         </div>
         <div class="slds-var-m-around_small">
             <lightning-button-group>
                 <lightning-button label="New" icon-name="utility:add" onclick={handleNew}></lightning-button>
-                <lightning-button label="Delete" icon-name="utility:delete" onclick={handleDelete} disabled={isDeleteDisabled}>
+                <lightning-button
+                    label="Delete"
+                    icon-name="utility:delete"
+                    onclick={handleDelete}
+                    disabled={isDeleteDisabled}
+                >
                 </lightning-button>
             </lightning-button-group>
         </div>

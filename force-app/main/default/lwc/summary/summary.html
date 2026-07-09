@@ -3,27 +3,35 @@
         <div class="slds-var-m-around_small">
             <template if:true={summaryData}>
                 <div class="slds-m-around_medium">
-                    <lightning-input type="text"
-                        label="Project" 
-                        value={summaryData.projectName} 
-                        class="custom-disabled-input">
-                    </lightning-input>
-                    <lightning-input type="date" 
-                        label="Start date" 
-                        value={summaryData.startDate} 
+                    <lightning-input
+                        type="text"
+                        label="Project"
+                        value={summaryData.projectName}
                         class="custom-disabled-input"
-                        date-style="short">
+                    >
                     </lightning-input>
-                    <lightning-input type="date" 
-                        label="End date" 
-                        value={summaryData.endDate} 
+                    <lightning-input
+                        type="date"
+                        label="Start date"
+                        value={summaryData.startDate}
+                        class="custom-disabled-input"
                         date-style="short"
-                        class="custom-disabled-input">
+                    >
                     </lightning-input>
-                    <lightning-input type="number" 
-                        label="Total Hours" 
-                        value={summaryData.amountHours} 
-                        class="custom-disabled-input">
+                    <lightning-input
+                        type="date"
+                        label="End date"
+                        value={summaryData.endDate}
+                        date-style="short"
+                        class="custom-disabled-input"
+                    >
+                    </lightning-input>
+                    <lightning-input
+                        type="number"
+                        label="Total Hours"
+                        value={summaryData.amountHours}
+                        class="custom-disabled-input"
+                    >
                     </lightning-input>
                 </div>
             </template>

@@ -1,36 +1,33 @@
 <template>
-  <lightning-layout multiple-rows="true">
-    <lightning-layout-item padding="around-small" size="12">
-      <div class="page-section page-main">
-        <c-filter
-          onprojectchange={handleProjectChange}
-          onstartdatechange={handleStartDateChange}
-          onenddatechange={handleEndDateChange}
-        ></c-filter>
-      </div>
-    </lightning-layout-item>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item padding="around-small" size="12">
+            <div class="page-section page-main">
+                <c-filter
+                    onprojectchange={handleProjectChange}
+                    onstartdatechange={handleStartDateChange}
+                    onenddatechange={handleEndDateChange}
+                ></c-filter>
+            </div>
+        </lightning-layout-item>
 
-    <lightning-layout-item padding="around-small" size="12">
-      <div class="page-section page-main">
-        <c-list
-          onrowselectionchange={handleRowSelectionChange}
-          onreloadsummary={handleReloadSummary}
-        ></c-list>
-      </div>
-    </lightning-layout-item>
-  </lightning-layout>
+        <lightning-layout-item padding="around-small" size="12">
+            <div class="page-section page-main">
+                <c-list onrowselectionchange={handleRowSelectionChange} onreloadsummary={handleReloadSummary}></c-list>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
 
-  <lightning-layout multiple-rows="false">
-    <lightning-layout-item padding="around-small" size="6">
-      <div class="page-section page-main">
-        <c-details record-id={selectedTimeTrackingId} onreloadlist={handleReloadList}></c-details>
-      </div>
-    </lightning-layout-item>
+    <lightning-layout multiple-rows="false">
+        <lightning-layout-item padding="around-small" size="6">
+            <div class="page-section page-main">
+                <c-details record-id={selectedTimeTrackingId} onreloadlist={handleReloadList}></c-details>
+            </div>
+        </lightning-layout-item>
 
-    <lightning-layout-item padding="around-small" size="6">
-      <div class="page-section page-main">
-        <c-summary></c-summary>
-      </div>
-    </lightning-layout-item>
-  </lightning-layout>
+        <lightning-layout-item padding="around-small" size="6">
+            <div class="page-section page-main">
+                <c-summary></c-summary>
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
 </template>
