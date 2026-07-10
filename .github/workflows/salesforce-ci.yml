@@ -11,49 +11,80 @@ jobs:
     deploy-to-scratch-org-and-run-tests:
         runs-on: ubuntu-latest
         steps:
+            # Step 1: Pull the codebase from the Git repository
             - name: Checkout
               uses: actions/checkout@v4
 
+            # Step 2: Install NodeJS environment
             - name: Install Node.js
               uses: actions/setup-node@v4
               with:
-                  node-version: 24
+                  node-id: 24
 
+            # Step 3: Install Salesforce CLI globally
             - name: Install Salesforce CLI with NPM
               run: |
                   npm install @salesforce/cli --global
+                  sf --version
 
+            # Step 4: Install node module dependencies
             - name: Install Dependencies
               run: npm install
 
+            # Step 5: Populate a local text file with the DevHub Auth URL from GitHub Secrets
             - name: Authorize with the dev hub
-              run: echo "${{ secrets.SFDX_AUTH_URL_DEVHUB }}" | sf org login sfdx-url --alias DevHub --set-default-dev-hub --sfdx-url-stdin
+              run: echo "${{ secrets.SFDX_AUTH_URL_DEVHUB }}" | sf org login sfdx-url --alias DevHub --set-default-dev-hub --sfdx-url-stdi
 
+            # Step 6: Create a scratch org
             - name: Create scratch org
               run: sf org create scratch --definition-file config/project-scratch-def.json --alias ScratchOrg --wait 30 --duration-days 1 --set-default --json
 
+            # Step 7: Deploy source to the scratch org
             - name: Push source
               run: sf project deploy start --target-org ScratchOrg --wait 30
 
+            # Step 7: Assign specific project permission sets to the scratch org default user
             - name: Add permission set to testing user
               run: sf org assign permset --name "TimeTrackingLogsPermissions"
 
-            - name: Run Apex unit tests
+            # Step 8: Run apex unit tests
+            - name: Run Apex unit tests with coverage
               run: sf apex run test --target-org ScratchOrg --code-coverage --result-format human --output-dir ./tests/apex --test-level RunLocalTests --wait 30
+
+            # Step 9: Upload test coverage results to Codecov
             - name: Upload Apex test coverage reports to Codecov
               uses: codecov/codecov-action@v4.0.1
               with:
                   token: ${{ secrets.CODECOV_TOKEN }}
                   flags: Apex
+
+            # Step 10: Run LWC unit tests with coverage
             - name: Run LWC unit tests
               run: npm run test:unit:coverage
 
+            # Step 11: Upload LWC test coverage results to Codecov
             - name: Upload LWC test coverage reports to Codecov
               uses: codecov/codecov-action@v4.0.1
               with:
                   token: ${{ secrets.CODECOV_TOKEN }}
                   flags: LWC
 
+            # Step 12: Populate a local text file with the Sandbox / Developer Org Auth URL from GitHub Secrets
+            - name: "Populate Auth File"
+              run: |
+                  echo "${{ secrets.SFDX_AUTH_URL_SANDBOX }}" > ./auth_url.txt
+
+            # Step 13: Authenticate into the Sandbox / Developer Org using the file
+            - name: "Authenticate to Sandbox / Developer Org"
+              run: |
+                  sf org login sfdx-url --sfdx-url-file ./auth_url.txt --set-default --alias sandbox
+
+            # Step 14: Deploy all metadata inside the force-app folder to the Sandbox / Developer Org
+            - name: "Deploy Source Metadata to Sandbox / Developer Org"
+              run: |
+                  sf project deploy start --source-dir force-app --wait 30 --test-level NoTestRun
+
+            # Step 15: Delete scratch org
             - name: Delete scratch org
               if: always()
               run: sf org delete scratch --target-org ScratchOrg --no-prompt
