@@ -72,21 +72,6 @@ jobs:
                   token: ${{ secrets.CODECOV_TOKEN }}
                   flags: LWC
 
-            # # Step 12: Populate a local text file with the Sandbox / Developer Org Auth URL from GitHub Secrets
-            # - name: "Populate Auth File"
-            #   run: |
-            #       echo "${{ secrets.SFDX_AUTH_URL_SANDBOX }}" > ./auth_url.txt
-
-            # # Step 13: Authenticate into the Sandbox / Developer Org using the file
-            # - name: "Authenticate to Sandbox / Developer Org"
-            #   run: |
-            #       sf org login sfdx-url --sfdx-url-file ./auth_url.txt --set-default --alias sandbox
-
-            # # Step 14: Deploy all metadata inside the force-app folder to the Sandbox / Developer Org
-            # - name: "Deploy Source Metadata to Sandbox / Developer Org"
-            #   run: |
-            #       sf project deploy start --source-dir force-app --wait 30 --test-level NoTestRun
-
             # Step 15: Delete scratch org
             - name: Delete scratch org
               if: always()
