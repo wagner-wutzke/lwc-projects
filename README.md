@@ -1,62 +1,56 @@
-# Salesforce DX Project
+# LWC Time Tracking
 
-Salesforce DX is a development approach that brings source-driven development, team collaboration, and continuous integration to the Salesforce Platform. Instead of working directly in an org through a web browser, you work with metadata as source files in a local DX project, track changes in version control, and deploy through automated processes.
+<img width="1349" height="771" alt="Screenshot from 2026-07-10 16-09-41" src="https://github.com/user-attachments/assets/0606b0f5-090e-41ee-bd05-c71e21cce928" />
 
-This project template gets you started with the tools and structure you need to build Salesforce applications using source control, scratch orgs, and the Salesforce CLI.
+<p>&nbsp;</p>
 
-## Prerequisites
+This is a small portofolio project for showing LWC components intercommunication.
+The application goal is to manage working hours related to projects.
+It is build with LWC components. The components are building a compound as pictured below.
 
-Before you start, make sure you have:
+<p align="center">
+  <img width="600" height="400" alt="image" src="https://github.com/user-attachments/assets/187ca37a-db15-4fe1-be34-56badb15ba51" />
+</p>
 
-- **Salesforce CLI** - Download from [developer.salesforce.com/tools/salesforcecli](https://developer.salesforce.com/tools/salesforcecli). See [Install Salesforce CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) for details.
-- **VS Code with Salesforce Extension Pack** - See [Installation Instructions](https://developer.salesforce.com/docs/platform/sfvscode-extensions/guide/install.html) for details. Includes the Agentforce Vibes extension.
-- **A development org** - Sign up for a free Developer Edition org [here](https://developer.salesforce.com/signup).
-- **Dev Hub enabled** (optional, required to create scratch orgs) - You can enable Dev Hub in your development org under Setup > Dev Hub.  See [Provide Developers Access to Salesforce DX Tools](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_setup_dx_tools.htm).
+## LWC Components
 
-## Project Structure
+### Main
+This is the parent component holding all other child components. 
+It Receives events from them and handles them properly, passing results back, when necessary.
 
-Your DX project follows this structure:
+### Filter
+This is a component for filtering the records to be shown according to the selectors:
+- Project
+- Start Date
+- End Date
+- Collaborator (not implemented yet)
 
-- **`force-app/main/default/`** - Your metadata source files live in this default package directory. You can configure additional package directories in the `sfdx-project.json` file.
-- **`config/`** - Scratch org definitions and project settings
-- **`scripts/`** - Automation scripts for common tasks
-- **`sfdx-project.json`** - Project manifest that defines package directories, namespace, API version, and other project-level settings
+Changing any filter selection fires a custom event, which is captured by the main component.\
+The main component calls a method imperatively in the `list` component, causing a list reload.
 
-See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm).
+### List
+This is the component responsible to show all records available according to the selected filter parameters.\
+When a record is selected, it gets loaded in the `details` component, where it can be edited or deleted.\
+Additionally, when reloading, the list component fires a custom event for reloading the `summary` component with the new calculated values.\
+The main component catches the event and calls a method imperatively in the `summary` component.
 
-## Get Started
+### Details
+This is the component responsible for showing the selected record details.\
+When clicking on the "New" button, a new record can be created. After creating or deleting a record, the `list` component gets updated.\
+This component uses a standard `lightning-record-form`, which does not need any controller for saving or deleting the selected record.
 
-Ready to start developing? The [Get Started with Salesforce DX](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_get_started_dx.htm) guide walks you through your first project, from creating a scratch org to creating a simple Apex class or LWC to deploying your code to a sandbox.
-
-## Common Salesforce CLI Commands
-
-Here are common CLI commands that you'll use the most:
-
-- `sf org login web`: Authorize an org
-- `sf org open`: Open your org in a browser
-- `sf org create scratch`: Create a scratch org
-- `sf project deploy start`: Deploy metadata to your org
-- `sf project retrieve start`: Retrieve metadata from your org
-- `sf template generate <artifact>`: Scaffold new components, such as Apex classes and triggers, LWC components, Lightning apps, and more
-- `sf apex <command>`: Run Apex tests, run anonymous Apex blocks, and view logs
-- `sf data <command>`: Work with test data
-- `sf alias <command>`: Manage org aliases
-- `sf config <command>`: Configure CLI settings
-
-## Use Agentforce Vibes to Build Lightning Apps
-
-Transform your ideas into custom Lightning apps that extend CRM workflows directly in Lightning Experience. Through natural conversations with Agentforce Vibes, implement custom objects and fields, complex business logic, and dynamic UI components. See [Build a Lightning App Using Agentforce Vibes](https://developer.salesforce.com/docs/platform/einstein-for-devs/guide/lexapp-overview.html).
-
-## Additional Resources
-
-- [Agentforce Vibes Developer Guide](https://developer.salesforce.com/docs/platform/einstein-for-devs/guide/einstein-overview.html)
-- [Salesforce CLI Installation Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/)
-- [Salesforce CLI Plugin Development Guide](https://developer.salesforce.com/docs/platform/salesforce-cli-plugin/guide/conceptual-overview.html)
-- [Salesforce VS Code Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-
+### Summary
+This is the component responsible for showing the amount of registered hours for the given filter selections.\
+It shows the current filter selections and the total amount.
 
 ## Missing Features
-- There is no validation for Dates filter: Start Date can currently be greater than End Date.
-- There is no validation for Times in the Time Tracking Log records: Start Time can currently be greater than End Time.
+- There is no validation for Dates filters: Start Date is allowed to be after the End Date.
+- There is no validation for Times in the Time Tracking Log records: Start Time is allowed be after the End Time.
+- Only an administrator or other dedicated user should have access to all users Time Tracking Log records.
+- When opening the application, only Time Tracking Log records for the current user should be listed.
+- When opening the application, only projects where the current user is involved should be listed.
+
+
+
+
+
