@@ -33,7 +33,7 @@ jobs:
 
             # Step 5: Populate a local text file with the DevHub Auth URL from GitHub Secrets
             - name: Authorize with the dev hub
-              run: echo "${{ secrets.SFDX_AUTH_URL_DEVHUB }}" | sf org login sfdx-url --alias DevHub --set-default-dev-hub --sfdx-url-stdi
+              run: echo "${{ secrets.SFDX_AUTH_URL_DEVHUB }}" | sf org login sfdx-url --alias DevHub --set-default-dev-hub --sfdx-url-stdin
 
             # Step 6: Create a scratch org
             - name: Create scratch org
