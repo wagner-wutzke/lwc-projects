@@ -44,15 +44,15 @@ jobs:
               uses: codecov/codecov-action@v4.0.1
               with:
                   token: ${{ secrets.CODECOV_TOKEN }}
-                  flags: Apex
+                  flags: Apex, LWC
             - name: Run LWC unit tests
               run: npm run test:unit:coverage
 
-            - name: Upload LWC coverage reports to Codecov
-              uses: codecov/codecov-action@v4.0.1
-              with:
-                  token: ${{ secrets.CODECOV_TOKEN }}
-                  flags: LWC
+            # - name: Upload LWC coverage reports to Codecov
+            #   uses: codecov/codecov-action@v4.0.1
+            #   with:
+            #       token: ${{ secrets.CODECOV_TOKEN }}
+            #       flags: LWC
 
             - name: Delete scratch org
               if: always()
