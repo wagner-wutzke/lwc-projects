@@ -10,6 +10,9 @@ on:
 jobs:
     deploy-to-scratch-org-and-run-tests:
         runs-on: ubuntu-latest
+        env:
+            FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
         steps:
             # Step 1: Pull the codebase from the Git repository
             - name: Checkout
@@ -19,7 +22,7 @@ jobs:
             - name: Install Node.js
               uses: actions/setup-node@v4
               with:
-                  node-id: 24
+                  node-version: 24
 
             # Step 3: Install Salesforce CLI globally
             - name: Install Salesforce CLI with NPM
