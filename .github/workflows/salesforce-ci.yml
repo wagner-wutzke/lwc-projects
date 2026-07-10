@@ -98,21 +98,41 @@ jobs:
             FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
         steps:
-            # Step 1: Populate a local text file with the Sandbox / Developer Org Auth URL from GitHub Secrets
+            # Step 1: Pull the codebase from the Git repository
+            - name: Checkout
+              uses: actions/checkout@v4
+
+            # Step 2: Install NodeJS environment
+            - name: Install Node.js
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 24
+
+            # Step 3: Install Salesforce CLI globally
+            - name: Install Salesforce CLI with NPM
+              run: |
+                  npm install @salesforce/cli --global
+                  sf --version
+
+            # Step 4: Install node module dependencies
+            - name: Install Dependencies
+              run: npm install
+
+            # Step 5: Populate a local text file with the Sandbox / Developer Org Auth URL from GitHub Secrets
             - name: "Populate Auth File"
               run: |
                   echo "${{ secrets.SFDX_AUTH_URL_SANDBOX }}" > ./auth_url.txt
 
-            # Step 2: Authenticate into the Sandbox / Developer Org using the file
+            # Step 6: Authenticate into the Sandbox / Developer Org using the file
             - name: "Authenticate to Sandbox / Developer Org"
               run: |
                   sf org login sfdx-url --sfdx-url-file ./auth_url.txt --set-default --alias sandbox
 
-            # Step 3: Deploy all metadata inside the force-app folder to the Sandbox / Developer Org
+            # Step 7: Deploy all metadata inside the force-app folder to the Sandbox / Developer Org
             - name: "Deploy Source Metadata to Sandbox / Developer Org"
               run: |
                   sf project deploy start --source-dir force-app --wait 30 --test-level NoTestRun
 
-            # Step 4: Assign specific project permission sets to the scratch org default user
+            # Step 8: Assign specific project permission sets to the scratch org default user
             - name: Add permission set to testing user
               run: sf org assign permset --name "TimeTrackingLogsPermissions"
