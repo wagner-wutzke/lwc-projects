@@ -1,7 +1,7 @@
 /**
  * Test class for TimeTrackingLogController.
  *
- * SCHEMA ASSUMPTIONS:
+ * SCHEMA
  *  - Collaborator__c is a Contact object,
  *    referenced from TimeTrackingLog__c via a lookup field called Collaborator__c.
  *  - Project__c.ProjectOwner__c is a lookup to a Contact.
@@ -17,7 +17,7 @@ private class TimeTrackingLogControllerTest {
     static void setupData() {
         // Collaborator
         Contact collaborator = new Contact(FirstName = 'John', LastName = 'Doe', Email = 'john.doe@apex.com');
-        insert collaborator;
+        insert as user collaborator;
 
         Contact projectOwner = new Contact(FirstName = 'Walter', LastName = 'White', Email = 'walter.white@apex.com');
         insert projectOwner;
@@ -30,7 +30,7 @@ private class TimeTrackingLogControllerTest {
             Active__c = true,
             ProjectOwner__c = projectOwner.Id
         );
-        insert activeProject;
+        insert as user activeProject;
 
         // Inactive project - logs under this should never be returned by fetchFilteredRecords
         Project__c inactiveProject = new Project__c(
@@ -40,7 +40,7 @@ private class TimeTrackingLogControllerTest {
             Active__c = false,
             ProjectOwner__c = projectOwner.Id
         );
-        insert inactiveProject;
+        insert as user inactiveProject;
 
         // Logs under the active project
         TimeTrackingLog__c logToday = new TimeTrackingLog__c(
@@ -71,7 +71,7 @@ private class TimeTrackingLogControllerTest {
             Project__c = inactiveProject.Id
         );
 
-        insert new List<TimeTrackingLog__c>{ logToday, logPast, logInactiveProject };
+        insert as user new List<TimeTrackingLog__c>{ logToday, logPast, logInactiveProject };
     }
 
     @isTest
