@@ -59,7 +59,7 @@ jobs:
                   flags: Apex
 
             # Step 10: Run LWC unit tests with coverage
-            - name: Run LWC unit tests
+            - name: Run LWC unit tests with coverage
               run: npm run test:unit:coverage
 
             # Step 11: Upload LWC test coverage results to Codecov
