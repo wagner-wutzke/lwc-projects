@@ -23,6 +23,9 @@ jobs:
               run: |
                   npm install @salesforce/cli --global
 
+            - name: Install Dependencies
+              run: npm install
+
             - name: Authorize with the dev hub
               run: echo "${{ secrets.SFDX_AUTH_URL_DEVHUB }}" | sf org login sfdx-url --alias DevHub --set-default-dev-hub --sfdx-url-stdin
 
