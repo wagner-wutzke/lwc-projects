@@ -32,22 +32,19 @@ jobs:
             - name: Push source
               run: sf project deploy start --target-org ScratchOrg --wait 30
 
-            - name: Deploy Permission Set Metadata
-              run: sf project deploy start --metadata "PermissionSet:TimeTrackingLogsPermissions" --wait 10
-
             - name: Add permission set to testing user
               run: sf org assign permset --name "TimeTrackingLogsPermissions"
 
-            - name: Run tests
+            - name: Run Apex tests
               run: sf apex run test --target-org ScratchOrg --code-coverage --result-format human --output-dir ./tests/apex --test-level RunLocalTests --wait 30
-
             - name: Upload coverage reports to Codecov
               uses: codecov/codecov-action@v4.0.1
               with:
                   token: ${{ secrets.CODECOV_TOKEN }}
-                  flags: lwc, apex
-                  name: salesforce-combined-coverage
-                  verbose: true
+                  flags: apex,lwc
+
+            - name: Run LWC unit tests
+              run: npm run test:unit:coverage
 
             - name: Delete scratch org
               if: always()
