@@ -32,6 +32,9 @@ jobs:
             - name: Push source
               run: sf project deploy start --target-org ScratchOrg --wait 30
 
+            - name: Add permission set to testing user
+              run: sf org assign permset --name TimeTrackingLogsPermissions --target-org ScratchOrg
+
             - name: Run tests
               run: sf apex run test --target-org ScratchOrg --code-coverage --result-format human --output-dir ./tests/apex --test-level RunLocalTests --wait 30
 
