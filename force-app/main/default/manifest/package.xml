@@ -29,12 +29,8 @@
         <name>FlexiPage</name>
     </types>
     <types>
-        <members>WorkingTimeTrackingPermissions</members>
+        <members>TimeTrackingLogsPermissions</members>
         <name>PermissionSet</name>
-    </types>
-    <types>
-        <members>WorkingTimeTrackingPermissions</members>
-        <name>Profile</name>
     </types>
     <types>
         <members>Projects</members>

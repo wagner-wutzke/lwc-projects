@@ -17,7 +17,7 @@ private class TimeTrackingLogControllerTest {
     static void setupData() {
         // Collaborator
         Contact collaborator = new Contact(FirstName = 'John', LastName = 'Doe', Email = 'john.doe@apex.com');
-        insert as user collaborator;
+        insert collaborator;
 
         Contact projectOwner = new Contact(FirstName = 'Walter', LastName = 'White', Email = 'walter.white@apex.com');
         insert projectOwner;
@@ -30,7 +30,7 @@ private class TimeTrackingLogControllerTest {
             Active__c = true,
             ProjectOwner__c = projectOwner.Id
         );
-        insert as user activeProject;
+        insert activeProject;
 
         // Inactive project - logs under this should never be returned by fetchFilteredRecords
         Project__c inactiveProject = new Project__c(
@@ -40,7 +40,7 @@ private class TimeTrackingLogControllerTest {
             Active__c = false,
             ProjectOwner__c = projectOwner.Id
         );
-        insert as user inactiveProject;
+        insert inactiveProject;
 
         // Logs under the active project
         TimeTrackingLog__c logToday = new TimeTrackingLog__c(
@@ -71,7 +71,7 @@ private class TimeTrackingLogControllerTest {
             Project__c = inactiveProject.Id
         );
 
-        insert as user new List<TimeTrackingLog__c>{ logToday, logPast, logInactiveProject };
+        insert new List<TimeTrackingLog__c>{ logToday, logPast, logInactiveProject };
     }
 
     @isTest
