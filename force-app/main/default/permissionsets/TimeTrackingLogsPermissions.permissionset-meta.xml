@@ -66,12 +66,4 @@
         <viewAllFields>false</viewAllFields>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
-    <tabSettings>
-        <tab>Project__c</tab>
-        <visibility>Available</visibility>
-    </tabSettings>
-    <tabSettings>
-        <tab>TimeTrackingLog__c</tab>
-        <visibility>Available</visibility>
-    </tabSettings>
 </PermissionSet>
