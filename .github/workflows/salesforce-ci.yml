@@ -72,7 +72,7 @@ jobs:
                   token: ${{ secrets.CODECOV_TOKEN }}
                   flags: LWC
 
-            # Step 15: Delete scratch org
+            # Step 12: Delete scratch org
             - name: Delete scratch org
               if: always()
               run: sf org delete scratch --target-org ScratchOrg --no-prompt
